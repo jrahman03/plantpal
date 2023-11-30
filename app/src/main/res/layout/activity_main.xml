@@ -24,8 +24,8 @@
             android:layout_width="103dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background=""
             android:text="Explore"
+            android:backgroundTint="@android:color/holo_green_light"
             android:layout_gravity="center"/>
 
         <Button
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Home"
-            android:background=""
+            android:backgroundTint="@android:color/holo_green_light"
             android:layout_gravity="center"/>
 
         <Button
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Settings"
-            android:background=""
+            android:backgroundTint="@android:color/holo_green_light"
             android:layout_gravity="center"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
