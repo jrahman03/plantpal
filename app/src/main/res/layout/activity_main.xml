@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        android:background="#ACD2AD">
+        android:background="#A7D68B">
 
         <Button
             android:id="@+id/explore"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Explore"
-            android:backgroundTint="@android:color/holo_green_light"
+            android:backgroundTint="@color/customGreen"
             android:layout_gravity="center"/>
 
         <Button
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Home"
-            android:backgroundTint="@android:color/holo_green_light"
+            android:backgroundTint="@color/customGreen"
             android:layout_gravity="center"/>
 
         <Button
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Settings"
-            android:backgroundTint="@android:color/holo_green_light"
+            android:backgroundTint="@color/customGreen"
             android:layout_gravity="center"/>
     </LinearLayout>
 
@@ -60,14 +60,16 @@
             android:id="@+id/urlEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="URL for question data" />
+            android:hint="URL for question data"
+            android:minHeight="48dp"/>
 
         <EditText
             android:id="@+id/updateFrequencyEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:hint="Update frequency in minutes" />
+            android:hint="Update frequency in minutes"
+            android:minHeight="48dp"/>
 
 
         <Button
