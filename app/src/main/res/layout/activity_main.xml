@@ -71,11 +71,11 @@
             android:hint="Update frequency in minutes"
             android:minHeight="48dp"/>
 
-
         <Button
             android:id="@+id/savePreferencesButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save Preferences" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
