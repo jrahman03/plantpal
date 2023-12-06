@@ -52,6 +52,7 @@
             android:text="New Plant 3"
             android:textSize="18dp" />
 
+
     </RelativeLayout>
 
     <LinearLayout
