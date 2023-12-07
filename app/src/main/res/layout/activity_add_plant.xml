@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewPlantName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Plant Name"
+        android:textAppearance="?attr/textAppearanceHeadline6" />
+
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:layout_below="@id/textViewPlantName" />
+
+    <EditText
+        android:id="@+id/editTextType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type"
+        android:layout_below="@id/editTextDescription" />
+
+    <EditText
+        android:id="@+id/editTextCareMethods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Care Methods"
+        android:layout_below="@id/editTextType" />
+
+    <Button
+        android:id="@+id/buttonAddPlant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Plant"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/editTextCareMethods" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/buttonExplore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="explore" />
+
+        <Button
+            android:id="@+id/buttonHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="home" />
+
+        <Button
+            android:id="@+id/buttonSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="settings" />
+    </LinearLayout>
+</RelativeLayout>
