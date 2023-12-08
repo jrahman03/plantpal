@@ -48,10 +48,12 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/preferencesLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -60,7 +62,7 @@
             android:id="@+id/urlEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="URL for question data"
+            android:hint="Filename in assets folder"
             android:minHeight="48dp"/>
 
         <EditText
@@ -75,7 +77,8 @@
             android:id="@+id/savePreferencesButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Preferences" />
+            android:text="Save Preferences"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
