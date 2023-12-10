@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/titlePlantNameTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="146dp"
+                android:layout_marginTop="49dp"
+                android:layout_marginEnd="145dp"
+                android:text="Plant Name"
+                android:textSize="23dp" />
+
+            <RelativeLayout
+                android:id="@+id/imageBox"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_below="@+id/titlePlantNameTest"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="105dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="105dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.22"
+                tools:context=".MainActivity">
+
+                <View
+                    android:layout_width="423dp"
+                    android:layout_height="423dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#A7D68B" />
+
+                <ImageView
+                    android:id="@+id/myImageView"
+                    android:layout_width="398dp"
+                    android:layout_height="390dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:src="@drawable/placeholder" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/buttonChangeImg"
+                android:layout_width="159dp"
+                android:layout_height="55dp"
+                android:layout_below="@+id/imageBox"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="127dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="126dp"
+                android:backgroundTint="@color/customDarkGreen"
+                android:text="Change Image" />
+
+            <TextView
+                android:id="@+id/textDescription"
+                android:layout_width="84dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buttonChangeImg"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="293dp"
+                android:text="Description:" />
+
+            <TextView
+                android:id="@+id/textType"
+                android:layout_width="84dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textDescription"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="293dp"
+                android:text="Plant Type:" />
+
+            <TextView
+                android:id="@+id/textCareMethod"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textType"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="255dp"
+                android:text="Care Methods:" />
+
+            <TextView
+                android:id="@+id/textLastWatered"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textCareMethod"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="255dp"
+                android:text="Last Watered:" />
+
+            <TextView
+                android:id="@+id/textNotifyWater"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textLastWatered"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="255dp"
+                android:text="Notify Setting:" />
+
+            <EditText
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_below="@+id/textLastWatered"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="-287dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="200dp"
+                android:layout_toEndOf="@+id/textNotifyWater"
+                android:hint="days"/>
+
+            <TextView
+                android:id="@+id/textCurrHeight"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textNotifyWater"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="255dp"
+                android:text="Current Height:" />
+
+            <EditText
+                android:layout_width="123dp"
+                android:layout_height="48dp"
+                android:layout_below="@+id/textNotifyWater"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="-280dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="190dp"
+                android:layout_toEndOf="@+id/textCurrHeight"
+                android:hint="cm"/>
+
+            <TextView
+                android:id="@+id/textHeightGoal"
+                android:layout_width="79dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textCurrHeight"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="300dp"
+                android:text="Height Goal:" />
+
+            <EditText
+                android:layout_width="123dp"
+                android:layout_height="48dp"
+                android:layout_below="@+id/textCurrHeight"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="-300dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="210dp"
+                android:layout_toEndOf="@+id/textHeightGoal"
+                android:hint="cm"/>
+
+            <Button
+                android:id="@+id/buttonCancelEdit"
+                android:layout_width="108dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textHeightGoal"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="33dp"
+                android:layout_marginEnd="246dp"
+                android:backgroundTint="@color/customGreen"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/buttonSaveChanges"
+                android:layout_width="153dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textHeightGoal"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="33dp"
+                android:layout_marginEnd="58dp"
+                android:backgroundTint="@color/customDarkGreen"
+                android:text="Save Changes" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
