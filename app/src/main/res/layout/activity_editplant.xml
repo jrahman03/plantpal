@@ -19,7 +19,7 @@
 
 
             <TextView
-                android:id="@+id/titlePlantNameTest"
+                android:id="@+id/titlePlantName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -35,7 +35,7 @@
                 android:id="@+id/imageBox"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:layout_below="@+id/titlePlantNameTest"
+                android:layout_below="@+id/titlePlantName"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="105dp"
@@ -152,6 +152,7 @@
                 android:text="Notify Setting:" />
 
             <EditText
+                android:id="@+id/inputNotifySetting"
                 android:layout_width="100dp"
                 android:layout_height="48dp"
                 android:layout_below="@+id/textLastWatered"
@@ -175,6 +176,7 @@
                 android:text="Current Height:" />
 
             <EditText
+                android:id="@+id/inputCurrHeight"
                 android:layout_width="123dp"
                 android:layout_height="48dp"
                 android:layout_below="@+id/textNotifyWater"
@@ -198,6 +200,7 @@
                 android:text="Height Goal:" />
 
             <EditText
+                android:id="@+id/inputHeightGoal"
                 android:layout_width="123dp"
                 android:layout_height="48dp"
                 android:layout_below="@+id/textCurrHeight"
