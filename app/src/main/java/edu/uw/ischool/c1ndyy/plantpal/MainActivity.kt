@@ -13,6 +13,8 @@ import android.widget.Toast
 import org.json.JSONArray
 import java.io.IOException
 import android.util.Log
+import android.content.Intent
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,15 +40,20 @@ class MainActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, R.layout.list_item_plant, R.id.textViewPlantItem, plantsList)
         plantsListView.adapter = adapter
 
+        val settingsButton = findViewById<Button>(R.id.settingsButton)
         settingsButton.setOnClickListener {
-            showPreferencesUI()
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
         }
+
 
         savePreferencesButton.setOnClickListener {
             if (savePreferences()) {
                 loadPlantsData()
             }
         }
+
+
     }
 
     private fun savePreferences(): Boolean {
