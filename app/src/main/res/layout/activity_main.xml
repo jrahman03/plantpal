@@ -6,13 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Main content layout -->
-    <LinearLayout
-        android:id="@+id/linearLayoutMainContent"
+    <!-- Title for the list of plants -->
+    <TextView
+        android:id="@+id/textViewYourPlants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="your plants (home)"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Main content layout with a ScrollView wrapping the ListView -->
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewYourPlants"
         app:layout_constraintBottom_toTopOf="@id/linearLayoutNavigation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -22,17 +32,21 @@
             android:id="@+id/plantsListView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
-
-    </LinearLayout>
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewYourPlants"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayoutNavigation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </ScrollView>
 
     <!-- Bottom navigation layout -->
     <LinearLayout
         android:id="@+id/linearLayoutNavigation"
         android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
+        android:layout_height="60dp"
         android:background="#A7D68B"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -53,7 +67,6 @@
             android:text="Home"
             android:backgroundTint="@color/customGreen"/>
 
-        <!-- Updated ID to match Kotlin code -->
         <Button
             android:id="@+id/settingsButton"
             android:layout_width="0dp"

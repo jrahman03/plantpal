@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         preferencesLayout = findViewById(R.id.preferencesLayout)
         plantsListView = findViewById(R.id.plantsListView)
 
-        val plantsList = listOf("Plant 1", "Plant 2", "Plant 3")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, plantsList)
+        val plantsList = listOf("Plant 1", "Plant 2", "Plant 3") // Replace with real data later
+        val adapter = ArrayAdapter(this, R.layout.list_item_plant, R.id.textViewPlantItem, plantsList)
         plantsListView.adapter = adapter
 
         settingsButton.setOnClickListener {
