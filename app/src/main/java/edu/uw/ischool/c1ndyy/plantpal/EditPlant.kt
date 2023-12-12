@@ -1,10 +1,12 @@
 package edu.uw.ischool.c1ndyy.plantpal
 
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -21,6 +23,7 @@ class EditPlant : AppCompatActivity() {
     lateinit var currHeight : EditText
     lateinit var heightGoal : EditText
     lateinit var saveChanges : Button
+    lateinit var btnCancel : Button
     private lateinit var plantName: String
     private val plantDataMap: MutableMap<String, PlantData> = mutableMapOf()
 
@@ -33,6 +36,7 @@ class EditPlant : AppCompatActivity() {
         currHeight = findViewById(R.id.inputCurrHeight)
         heightGoal = findViewById(R.id.inputHeightGoal)
         saveChanges = findViewById(R.id.buttonSaveChanges)
+        btnCancel = findViewById(R.id.buttonCancelEdit)
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -71,7 +75,14 @@ class EditPlant : AppCompatActivity() {
         currHeight.addTextChangedListener(textWatcher)
         heightGoal.addTextChangedListener(textWatcher)
 
-
+        btnCancel.setOnClickListener (View.OnClickListener {
+            //need to set it to default input
+            //notifSetting.text.clear()
+            //currHeight.text.clear()
+            //heightGoal.text.clear()
+            val intent = Intent(this, PlantInfo::class.java)
+            startActivity(intent)
+        })
     }
 
     fun isValidNum(input: String): Boolean {
