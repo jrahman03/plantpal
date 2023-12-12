@@ -6,55 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- Main content layout -->
     <LinearLayout
-        android:layout_width="412dp"
+        android:id="@+id/linearLayoutMainContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- ListView for displaying plants -->
+        <ListView
+            android:id="@+id/plantsListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <!-- Bottom navigation layout -->
+    <LinearLayout
+        android:id="@+id/linearLayoutNavigation"
+        android:layout_width="0dp"
         android:layout_height="80dp"
         android:orientation="horizontal"
-        android:layout_gravity="center"
+        android:background="#A7D68B"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:background="#A7D68B">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <Button
             android:id="@+id/explore"
-            android:layout_width="103dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Explore"
-            android:backgroundTint="@color/customGreen"
-            android:layout_gravity="center"/>
+            android:backgroundTint="@color/customGreen"/>
 
         <Button
             android:id="@+id/home"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Home"
-            android:backgroundTint="@color/customGreen"
-            android:layout_gravity="center"/>
+            android:backgroundTint="@color/customGreen"/>
 
+        <!-- Updated ID to match Kotlin code -->
         <Button
-            android:id="@+id/settings"
-            android:layout_width="wrap_content"
+            android:id="@+id/settingsButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Settings"
-            android:backgroundTint="@color/customGreen"
-            android:layout_gravity="center"/>
+            android:backgroundTint="@color/customGreen"/>
     </LinearLayout>
 
+    <!-- Preferences layout -->
     <LinearLayout
         android:id="@+id/preferencesLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutNavigation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 

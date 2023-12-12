@@ -11,39 +11,54 @@
         android:text="Plant Name"
         android:textAppearance="?attr/textAppearanceHeadline6" />
 
+
+    <EditText
+        android:id="@+id/editTextPlantName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Plant Name"
+        android:layout_below="@id/textViewPlantName"
+        android:layout_marginTop="16dp"/>
+
     <EditText
         android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description"
-        android:layout_below="@id/textViewPlantName" />
+        android:layout_below="@id/editTextPlantName"
+        android:layout_marginTop="8dp"/>
 
     <EditText
         android:id="@+id/editTextType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Type"
-        android:layout_below="@id/editTextDescription" />
+        android:layout_below="@id/editTextDescription"
+        android:layout_marginTop="8dp"/>
 
     <EditText
         android:id="@+id/editTextCareMethods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Care Methods"
-        android:layout_below="@id/editTextType" />
+        android:layout_below="@id/editTextType"
+        android:layout_marginTop="8dp"/>
 
     <Button
         android:id="@+id/buttonAddPlant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add Plant"
-        android:layout_marginTop="16dp"
-        android:layout_below="@id/editTextCareMethods" />
+        android:backgroundTint="@color/customGreen"
+        android:layout_below="@id/editTextCareMethods"
+        android:layout_marginTop="16dp"/>
 
+    <!-- Navigation bar -->
     <LinearLayout
         android:id="@+id/linearLayoutNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#A7D68B"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true">
 
@@ -52,20 +67,26 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="explore" />
+            android:text="Explore"
+            android:backgroundTint="@color/customGreen"
+            android:layout_gravity="center"/>
 
         <Button
             android:id="@+id/buttonHome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="home" />
+            android:text="Home"
+            android:backgroundTint="@color/customGreen"
+            android:layout_gravity="center"/>
 
         <Button
             android:id="@+id/buttonSettings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="settings" />
+            android:text="Settings"
+            android:backgroundTint="@color/customGreen"
+            android:layout_gravity="center"/>
     </LinearLayout>
 </RelativeLayout>

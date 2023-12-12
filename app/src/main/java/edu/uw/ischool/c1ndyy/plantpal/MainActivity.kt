@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.ListView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import org.json.JSONArray
 import java.io.IOException
@@ -19,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var savePreferencesButton: Button
     private lateinit var settingsButton: Button
     private lateinit var preferencesLayout: LinearLayout
+    private lateinit var plantsListView: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +30,13 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("PlantPalPreferences", MODE_PRIVATE)
         urlEditText = findViewById(R.id.urlEditText)
         savePreferencesButton = findViewById(R.id.savePreferencesButton)
-        settingsButton = findViewById(R.id.settings)
+        settingsButton = findViewById(R.id.settingsButton)
         preferencesLayout = findViewById(R.id.preferencesLayout)
+        plantsListView = findViewById(R.id.plantsListView)
+
+        val plantsList = listOf("Plant 1", "Plant 2", "Plant 3")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, plantsList)
+        plantsListView.adapter = adapter
 
         settingsButton.setOnClickListener {
             showPreferencesUI()
@@ -36,11 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         savePreferencesButton.setOnClickListener {
             if (savePreferences()) {
-                val filename = sharedPreferences.getString("Filename", "plants.json") ?: "plants.json"
-                val jsonString = getJsonDataFromAsset(filename)
-                if (jsonString != null) {
-                    parseJsonData(jsonString)
-                }
+                loadPlantsData()
             }
         }
     }
@@ -71,6 +75,14 @@ class MainActivity : AppCompatActivity() {
         } catch (ioException: IOException) {
             ioException.printStackTrace()
             null
+        }
+    }
+
+    private fun loadPlantsData() {
+        val filename = sharedPreferences.getString("Filename", "plants.json") ?: "plants.json"
+        val jsonString = getJsonDataFromAsset(filename)
+        if (jsonString != null) {
+            parseJsonData(jsonString)
         }
     }
 
