@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         plantsListView.setOnItemClickListener{_, _, position, _ ->
-            val intent = Intent(this, EditPlant::class.java)
+            val intent = Intent(this, PlantInfo::class.java)
             intent.putExtra("plant", position)
             startActivity(intent)
         }

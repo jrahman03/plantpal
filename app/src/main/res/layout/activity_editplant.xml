@@ -9,8 +9,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,14 +22,15 @@
 
             <TextView
                 android:id="@+id/titlePlantName"
-                android:layout_width="wrap_content"
+                android:layout_width="317dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="146dp"
+                android:layout_marginStart="47dp"
                 android:layout_marginTop="49dp"
-                android:layout_marginEnd="145dp"
+                android:layout_marginEnd="47dp"
+                android:gravity="center"
                 android:text="Plant Name"
                 android:textSize="23dp" />
 
@@ -161,7 +164,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="200dp"
                 android:layout_toEndOf="@+id/textNotifyWater"
-                android:hint="days"/>
+                android:hint="days" />
 
             <TextView
                 android:id="@+id/textCurrHeight"
@@ -185,7 +188,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="190dp"
                 android:layout_toEndOf="@+id/textCurrHeight"
-                android:hint="cm"/>
+                android:hint="cm" />
 
             <TextView
                 android:id="@+id/textHeightGoal"
@@ -209,7 +212,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="210dp"
                 android:layout_toEndOf="@+id/textHeightGoal"
-                android:hint="cm"/>
+                android:hint="cm" />
 
             <Button
                 android:id="@+id/buttonCancelEdit"
@@ -235,7 +238,8 @@
                 android:layout_marginTop="33dp"
                 android:layout_marginEnd="58dp"
                 android:backgroundTint="@color/customDarkGreen"
-                android:text="Save Changes" />
+                android:text="Save Changes"
+                android:layout_marginBottom="30dp"/>
 
         </RelativeLayout>
     </ScrollView>

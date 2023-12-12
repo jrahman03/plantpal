@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/buttonBackTest"
+                android:id="@+id/buttonBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -32,15 +32,16 @@
 
 
             <TextView
-                android:id="@+id/titlePlantNameTest"
-                android:layout_width="wrap_content"
+                android:id="@+id/titlePlantName"
+                android:gravity="center"
+                android:layout_width="317dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="146dp"
+                android:layout_marginStart="47dp"
                 android:layout_marginTop="87dp"
-                android:layout_marginEnd="145dp"
+                android:layout_marginEnd="47dp"
                 android:text="Plant Name"
                 android:textSize="23dp" />
 
@@ -48,7 +49,7 @@
                 android:id="@+id/imageBox"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:layout_below="@+id/titlePlantNameTest"
+                android:layout_below="@+id/titlePlantName"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="105dp"
@@ -199,19 +200,8 @@
                 android:layout_marginTop="33dp"
                 android:layout_marginEnd="112dp"
                 android:backgroundTint="@color/customGreen"
-                android:text="Edit Plant" />
-
-            <TextView
-                android:id="@+id/test"
-                android:layout_width="123dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/buttonEditPlant"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="33dp"
-                android:layout_marginTop="21dp"
-                android:layout_marginEnd="255dp"
-                android:text="test text" />
+                android:text="Edit Plant"
+                android:layout_marginBottom="30dp" />
 
         </RelativeLayout>
     </ScrollView>
