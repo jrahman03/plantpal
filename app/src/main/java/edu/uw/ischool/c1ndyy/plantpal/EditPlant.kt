@@ -19,6 +19,7 @@ class EditPlant : AppCompatActivity() {
     data class PlantData(var plantIndex: Int, var notifSettingNum: Int, var heightGoal: Int, var currHeight: Int)
 
     private lateinit var sharedPreferences: SharedPreferences
+    lateinit var lastWatered : EditText
     lateinit var notifSetting : EditText
     lateinit var currHeight : EditText
     lateinit var heightGoal : EditText
@@ -31,10 +32,31 @@ class EditPlant : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editplant)
 
+        val plantNameInfo = getIntent().getStringExtra("plantName")
+        val plantTypeInfo = getIntent().getStringExtra("plantType")
+        val careMethodInfo = getIntent().getStringExtra("careMethod")
+        val lastWateredInfo = getIntent().getIntExtra("lastWatered", 0)
+        val notifyInfo = getIntent().getIntExtra("notify", 0)
+        val currHeightInfo = getIntent().getIntExtra("currHeight", 0)
+        val goalHeightInfo = getIntent().getIntExtra("goalHeight", 0)
+
+        val plantName = findViewById<TextView>(R.id.titlePlantName)
+        plantName.setText(plantNameInfo)
+        val plantType = findViewById<TextView>(R.id.textType)
+        plantType.setText(plantTypeInfo)
+        val careMethod = findViewById<TextView>(R.id.textCareMethod)
+        careMethod.setText(careMethodInfo)
+
         sharedPreferences = getSharedPreferences("PlantPalPreferences", MODE_PRIVATE)
+        lastWatered = findViewById(R.id.inputLastWatered)
+        lastWatered.setText("${lastWateredInfo}")
         notifSetting = findViewById(R.id.inputNotifySetting)
+        notifSetting.setText("${notifyInfo}")
         currHeight = findViewById(R.id.inputCurrHeight)
+        currHeight.setText("${currHeightInfo}")
         heightGoal = findViewById(R.id.inputHeightGoal)
+        heightGoal.setText("${goalHeightInfo}")
+
         saveChanges = findViewById(R.id.buttonSaveChanges)
         btnCancel = findViewById(R.id.buttonCancelEdit)
 
@@ -46,16 +68,22 @@ class EditPlant : AppCompatActivity() {
                 val allFieldsFilled = !notifSetting.text.isNullOrBlank() &&
                         !currHeight.text.isNullOrBlank() &&
                         !heightGoal.text.isNullOrBlank() &&
+                        !lastWatered.text.isNullOrBlank() &&
+                        isValidNum(lastWatered.text.toString()) &&
                         isValidNum(notifSetting.text.toString()) &&
                         isValidNum(currHeight.text.toString()) &&
                         isValidNum(heightGoal.text.toString())
 
                 if (allFieldsFilled) {
+                    lastWatered.error = null
                     notifSetting.error = null
                     currHeight.error = null
                     heightGoal.error = null
                     saveChanges.isEnabled = true
                 } else {
+                    if (!isValidNum(lastWatered.text.toString()) && lastWatered.text.isNotEmpty()) {
+                        lastWatered.error = "Please enter a valid number in whole days."
+                    }
                     if (!isValidNum(notifSetting.text.toString()) && notifSetting.text.isNotEmpty()) {
                         notifSetting.error = "Please enter a valid number in whole days."
                     }
@@ -71,16 +99,27 @@ class EditPlant : AppCompatActivity() {
             }
         }
 
+        lastWatered.addTextChangedListener(textWatcher)
         notifSetting.addTextChangedListener(textWatcher)
         currHeight.addTextChangedListener(textWatcher)
         heightGoal.addTextChangedListener(textWatcher)
 
         btnCancel.setOnClickListener (View.OnClickListener {
-            //need to set it to default input
-            //notifSetting.text.clear()
-            //currHeight.text.clear()
-            //heightGoal.text.clear()
             val intent = Intent(this, PlantInfo::class.java)
+            startActivity(intent)
+        })
+
+        saveChanges.setOnClickListener (View.OnClickListener {
+            val inputJustWatered = lastWatered.text.toString().toInt()
+            val inputNotify = notifSetting.text.toString().toInt()
+            val inputCurrHeight = currHeight.text.toString().toInt()
+            val inputGoalHeight = heightGoal.text.toString().toInt()
+
+            val intent = Intent(this, PlantInfo::class.java)
+            intent.putExtra("inputWater", inputJustWatered)
+            intent.putExtra("inputNotify", inputNotify)
+            intent.putExtra("inputCurrHeight", inputCurrHeight)
+            intent.putExtra("inputGoalHeight", inputGoalHeight)
             startActivity(intent)
         })
     }
@@ -91,29 +130,6 @@ class EditPlant : AppCompatActivity() {
             number >= 0
         } catch (e: NumberFormatException) {
             false
-        }
-    }
-
-    private fun saveData() {
-        /*
-        implement this part in where the user is clicking the individual plant itself to pass in the plant data
-        val intent = Intent(this, EditPlant::class.java)
-        intent.putExtra("plantData", selectedPlantJsonObject.toString())
-        startActivity(intent)
-         */
-
-        val plantDataString = intent.getStringExtra("plantData")
-        val plantJsonObject = JSONObject(plantDataString)
-
-
-    }
-
-    private fun getJsonDataFromAsset(fileName: String): String? {
-        return try {
-            assets.open(fileName).bufferedReader().use { it.readText() }
-        } catch (ioException: IOException) {
-            ioException.printStackTrace()
-            null
         }
     }
 

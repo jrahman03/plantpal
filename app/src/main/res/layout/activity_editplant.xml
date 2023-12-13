@@ -154,6 +154,18 @@
                 android:layout_toEndOf="@+id/textNotifyWater"
                 android:hint="days" />
 
+            <EditText
+                android:id="@+id/inputLastWatered"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_below="@+id/textCareMethod"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="-287dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="200dp"
+                android:layout_toEndOf="@+id/textNotifyWater"
+                android:hint="days" />
+
             <TextView
                 android:id="@+id/textCurrHeight"
                 android:layout_width="123dp"
