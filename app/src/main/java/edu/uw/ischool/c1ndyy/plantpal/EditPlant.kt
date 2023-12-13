@@ -1,17 +1,23 @@
 package edu.uw.ischool.c1ndyy.plantpal
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.nio.charset.Charset
 
 
 class EditPlant : AppCompatActivity() {
@@ -35,10 +41,10 @@ class EditPlant : AppCompatActivity() {
         val plantNameInfo = getIntent().getStringExtra("plantName")
         val plantTypeInfo = getIntent().getStringExtra("plantType")
         val careMethodInfo = getIntent().getStringExtra("careMethod")
-        val lastWateredInfo = getIntent().getIntExtra("lastWatered", 0)
-        val notifyInfo = getIntent().getIntExtra("notify", 0)
-        val currHeightInfo = getIntent().getIntExtra("currHeight", 0)
-        val goalHeightInfo = getIntent().getIntExtra("goalHeight", 0)
+        val lastWateredInfo = getIntent().getStringExtra("lastWatered")
+        val notifyInfo = getIntent().getStringExtra("notify")
+        val currHeightInfo = getIntent().getStringExtra("currHeight")
+        val goalHeightInfo = getIntent().getStringExtra("goalHeight")
 
         val plantName = findViewById<TextView>(R.id.titlePlantName)
         plantName.setText(plantNameInfo)
@@ -106,6 +112,10 @@ class EditPlant : AppCompatActivity() {
 
         btnCancel.setOnClickListener (View.OnClickListener {
             val intent = Intent(this, PlantInfo::class.java)
+            intent.putExtra("inputWater", lastWateredInfo.toString().toInt())
+            intent.putExtra("inputNotify", notifyInfo.toString().toInt())
+            intent.putExtra("inputCurrHeight", currHeightInfo.toString().toInt())
+            intent.putExtra("inputGoalHeight", goalHeightInfo.toString().toInt())
             startActivity(intent)
         })
 
@@ -114,6 +124,13 @@ class EditPlant : AppCompatActivity() {
             val inputNotify = notifSetting.text.toString().toInt()
             val inputCurrHeight = currHeight.text.toString().toInt()
             val inputGoalHeight = heightGoal.text.toString().toInt()
+
+            //read plant json data
+            val jsonString = readJsonFromFile()
+            //update plant json data with user inputs
+            val updatedJsonString = updateJsonData(jsonString, inputJustWatered, inputNotify, inputCurrHeight, inputGoalHeight)
+            //updated json data back to file
+            writeJsonToFile(updatedJsonString)
 
             val intent = Intent(this, PlantInfo::class.java)
             intent.putExtra("inputWater", inputJustWatered)
@@ -131,6 +148,38 @@ class EditPlant : AppCompatActivity() {
         } catch (e: NumberFormatException) {
             false
         }
+    }
+
+    private fun readJsonFromFile(): String {
+        val inputStream: InputStream = assets.open("plants.json")
+        val size: Int = inputStream.available()
+        val buffer = ByteArray(size)
+        inputStream.read(buffer)
+        inputStream.close()
+        return String(buffer, Charset.defaultCharset())
+    }
+
+    private fun updateJsonData(jsonString: String, inputJustWatered: Int, inputNotify: Int, inputCurrHeight: Int, inputGoalHeight: Int): String {
+        val jsonArray = JSONArray(jsonString)
+
+        //update data in json file
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            jsonObject.put("lastWatered", inputJustWatered)
+            jsonObject.put("notify", inputNotify)
+            jsonObject.put("currHeight", inputCurrHeight)
+            jsonObject.put("goalHeight", inputGoalHeight)
+        }
+
+        return jsonArray.toString()
+    }
+
+    private fun writeJsonToFile(jsonString: String) {
+        //write the json data back to the file
+        val outputStream: OutputStream = openFileOutput("plants.json", Context.MODE_PRIVATE)
+        outputStream.write(jsonString.toByteArray())
+        outputStream.close()
+        Log.d("SaveToJson", "Updated JSON file")
     }
 
 }

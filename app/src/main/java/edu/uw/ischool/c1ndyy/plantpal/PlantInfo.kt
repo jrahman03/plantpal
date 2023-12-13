@@ -69,6 +69,11 @@ class PlantInfo : AppCompatActivity() {
             val goalHeightText = "Goal Height: ${plant.goalHeight} cm"
             goalHeight.text = goalHeightText
 
+            btnJustWatered.setOnClickListener {
+                Toast.makeText(this, "You just watered your plant. Updated plant info.", Toast.LENGTH_LONG).show()
+                lastWatered.text = "Last Watered: 0 days ago"
+                plant.lastWatered = "0"
+            }
 
             btnEditPlant.setOnClickListener {
                 val intent = Intent(this, EditPlant::class.java)
@@ -87,11 +92,6 @@ class PlantInfo : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            btnJustWatered.setOnClickListener {
-                Toast.makeText(this, "You just watered your plant. Updated plant info.", Toast.LENGTH_LONG).show()
-                lastWatered.text = "Last Watered: 0 days ago"
-            }
-
 
         } else {
             Log.e("PlantInfo", "Plant not found for ID: $plantId")
@@ -104,7 +104,7 @@ class PlantInfo : AppCompatActivity() {
         val latin: String,
         val family: String,
         val watering: String,
-        val lastWatered: String,
+        var lastWatered: String,
         val notify: String,
         val currHeight: String,
         val goalHeight: String,
