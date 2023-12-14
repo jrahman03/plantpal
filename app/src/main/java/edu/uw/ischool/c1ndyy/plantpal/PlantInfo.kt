@@ -82,16 +82,20 @@ class PlantInfo : AppCompatActivity() {
             val goalHeightText = "Goal Height: ${plant.goalHeight} cm"
             goalHeight.text = goalHeightText
 
+            val currentTime = System.currentTimeMillis()
+            val lastUpdateTime = sharedPreferences.getLong("lastUpdateTime_$plantId", 0)
+
+            if (currentTime - lastUpdateTime >= 24 * 60 * 60 * 1000) {
+                plant.lastWatered = (plant.lastWatered.toInt() + 1).toString()
+                lastWatered.text = "Last Watered: ${plant.lastWatered} days ago"
+                sharedPreferences.edit().putLong("lastUpdateTime_$plantId", currentTime).apply()
+            }
+
             btnJustWatered.setOnClickListener {
-                val currentTimeMillis = System.currentTimeMillis()
-                val lastWateredTimeMillis = plant.lastWatered.toLong()
-
-                val timeDifferenceHours = (currentTimeMillis - lastWateredTimeMillis) / (1000 * 60 * 60)
-
-
                 Toast.makeText(this, "You just watered your plant. Updated plant info.", Toast.LENGTH_LONG).show()
-                lastWatered.text = "Last Watered: 0 days ago"
                 plant.lastWatered = "0"
+                lastWatered.text = "Last Watered: 0 days ago"
+                sharedPreferences.edit().putLong("lastUpdateTime_$plantId", System.currentTimeMillis()).apply()
             }
 
             btnEditPlant.setOnClickListener {
@@ -128,6 +132,7 @@ class PlantInfo : AppCompatActivity() {
         val notify: String,
         val currHeight: String,
         val goalHeight: String,
+        var lastUpdateTime: Long
     )
 
     private fun getJsonDataFromAsset(fileName: String): String? {
@@ -179,8 +184,13 @@ class PlantInfo : AppCompatActivity() {
             } else {
                 inputGoalHeight.toString()
             }
+            val lastUpdateTime = if (jsonObject.has("lastUpdateTime")) {
+                jsonObject.getLong("lastUpdateTime")
+            } else {
+                System.currentTimeMillis()
+            }
 
-            val plant = Plant(id, latin, family, watering, lastWatered, notify, currHeight, goalHeight)
+            val plant = Plant(id, latin, family, watering, lastWatered, notify, currHeight, goalHeight, lastUpdateTime)
             plantsList.add(plant)
         }
         return plantsList
