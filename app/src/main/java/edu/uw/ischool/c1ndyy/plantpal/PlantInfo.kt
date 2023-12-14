@@ -3,11 +3,14 @@ package edu.uw.ischool.c1ndyy.plantpal
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import org.json.JSONArray
@@ -33,6 +36,7 @@ class PlantInfo : AppCompatActivity() {
         setContentView(R.layout.activity_plantinfo)
 
         sharedPreferences = getSharedPreferences("PlantPalPreferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
         /*
         inputWater = getIntent().getIntExtra("inputWater", 0)
         inputNotify = getIntent().getIntExtra("inputNotify", 0)
@@ -44,6 +48,13 @@ class PlantInfo : AppCompatActivity() {
         val btnBack = findViewById<Button>(R.id.buttonBack)
         val btnJustWatered = findViewById<Button>(R.id.buttonWatered)
 
+        val selectedImageUriString = intent.getStringExtra("selectedImageUri")
+        val selectedImageUri: Uri? = if (!selectedImageUriString.isNullOrEmpty()) {
+            Uri.parse(selectedImageUriString)
+        } else {
+            null
+        }
+
         val plantId = getIntent().getIntExtra("plant", 0)
         Log.d("PlantInfo", "Received Plant ID: $plantId")
         inputWater = sharedPreferences.getInt("inputJustWatered_$plantId", 0)
@@ -54,6 +65,25 @@ class PlantInfo : AppCompatActivity() {
         val plant = loadPlantsData()?.find { it.id == plantId }
 
         if (plant != null) {
+            val imageView = findViewById<ImageView>(R.id.myImageView)
+            val imageUri = sharedPreferences.getString("imageUri_$plantId", "placeholder.png")
+            if (imageUri == "placeholder.png") {
+                imageView.setImageResource(R.drawable.placeholder) // Replace with your placeholder drawable resource
+            } else {
+                val imageUri = Uri.parse(imageUri)
+                val contentResolver = contentResolver
+                try {
+                    val inputStream = contentResolver.openInputStream(imageUri)
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    imageView.setImageBitmap(bitmap)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    // Handle the exception (e.g., show a placeholder image or log an error)
+                    imageView.setImageResource(R.drawable.placeholder)
+                }
+            }
+            Log.d("Plant Image", "Plant image link: $selectedImageUri")
+
             val plantName = findViewById<TextView>(R.id.titlePlantName)
             val plantNameText = plant.latin
             plantName.text = plantNameText
@@ -89,6 +119,10 @@ class PlantInfo : AppCompatActivity() {
                 plant.lastWatered = (plant.lastWatered.toInt() + 1).toString()
                 lastWatered.text = "Last Watered: ${plant.lastWatered} days ago"
                 sharedPreferences.edit().putLong("lastUpdateTime_$plantId", currentTime).apply()
+            }
+
+            if (plant.currHeight == plant.goalHeight && plant.goalHeight != "0") {
+                Toast.makeText(this, "$plantNameText has reached its height goal! Congratulations!", Toast.LENGTH_LONG).show()
             }
 
             btnJustWatered.setOnClickListener {
@@ -132,7 +166,8 @@ class PlantInfo : AppCompatActivity() {
         val notify: String,
         val currHeight: String,
         val goalHeight: String,
-        var lastUpdateTime: Long
+        var lastUpdateTime: Long,
+        var imageUri: String? = "placeholder.png"
     )
 
     private fun getJsonDataFromAsset(fileName: String): String? {
@@ -189,8 +224,13 @@ class PlantInfo : AppCompatActivity() {
             } else {
                 System.currentTimeMillis()
             }
+            val imageUri = if (jsonObject.has("imageUri")) {
+                jsonObject.getString("imageUri")
+            } else {
+                jsonObject.optString("imageUri", "placeholder.png")
+            }
 
-            val plant = Plant(id, latin, family, watering, lastWatered, notify, currHeight, goalHeight, lastUpdateTime)
+            val plant = Plant(id, latin, family, watering, lastWatered, notify, currHeight, goalHeight, lastUpdateTime, imageUri)
             plantsList.add(plant)
         }
         return plantsList

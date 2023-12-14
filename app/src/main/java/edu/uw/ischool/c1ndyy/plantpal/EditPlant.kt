@@ -3,6 +3,7 @@ package edu.uw.ischool.c1ndyy.plantpal
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -44,6 +45,7 @@ class EditPlant : AppCompatActivity() {
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
     }
+    private var selectedImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,7 +133,11 @@ class EditPlant : AppCompatActivity() {
         })
 
         btnCancel.setOnClickListener (View.OnClickListener {
+            val originalImageUri = sharedPreferences.getString("imageUri_$plantId", "placeholder.png")
+            sharedPreferences.edit().putString("imageUri_$plantId", originalImageUri).apply()
+
             val intent = Intent(this, PlantInfo::class.java)
+            intent.putExtra("selectedImageUri", originalImageUri)
             intent.putExtra("inputWater", lastWateredInfo.toString().toInt())
             intent.putExtra("inputNotify", notifyInfo.toString().toInt())
             intent.putExtra("inputCurrHeight", currHeightInfo.toString().toInt())
@@ -150,7 +156,8 @@ class EditPlant : AppCompatActivity() {
                 inputJustWatered,
                 inputNotify,
                 inputCurrHeight,
-                inputGoalHeight
+                inputGoalHeight,
+                selectedImageUri?.toString()
             )
 
             notifInterval = notifSetting.text.toString()
@@ -159,6 +166,7 @@ class EditPlant : AppCompatActivity() {
             Log.d("Water Plant Reminder", "${plantName.text} set to every ${notifInterval} days")
 
             val intent = Intent(this, PlantInfo::class.java)
+            intent.putExtra("selectedImageUri", selectedImageUri?.toString())
             intent.putExtra("plant", plantId)
             intent.putExtra("inputWater", inputJustWatered)
             intent.putExtra("inputNotify", inputNotify)
@@ -174,6 +182,8 @@ class EditPlant : AppCompatActivity() {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             val selectedImageUri = data?.data
             if (selectedImageUri != null) {
+                this.selectedImageUri = selectedImageUri
+
                 val imageView = findViewById<ImageView>(R.id.myImageView)
                 imageView.setImageURI(selectedImageUri)
             }
@@ -189,13 +199,16 @@ class EditPlant : AppCompatActivity() {
         }
     }
 
-    private fun updateJsonData(plantId: Int, inputJustWatered: Int, inputNotify: Int, inputCurrHeight: Int, inputGoalHeight: Int) {
+    private fun updateJsonData(plantId: Int, inputJustWatered: Int, inputNotify: Int, inputCurrHeight: Int, inputGoalHeight: Int, imageUri: String?) {
         val editor = sharedPreferences.edit()
         editor.putInt("inputJustWatered_$plantId", inputJustWatered)
         editor.putInt("inputNotify_$plantId", inputNotify)
         editor.putInt("inputCurrHeight_$plantId", inputCurrHeight)
         editor.putInt("inputGoalHeight_$plantId", inputGoalHeight)
+        editor.putString("imageUri_$plantId", imageUri ?: "placeholder.png")
         editor.apply()
+
+        Log.d("EditPlant", "Saved image URI for plant $plantId: $imageUri")
 
         val jsonString = sharedPreferences.getString("PlantData", null)
 
@@ -210,22 +223,13 @@ class EditPlant : AppCompatActivity() {
                     jsonObject.put("notify", inputNotify)
                     jsonObject.put("currHeight", inputCurrHeight)
                     jsonObject.put("goalHeight", inputGoalHeight)
-
-                    val editor = sharedPreferences.edit()
-                    editor.putInt("inputJustWatered_$plantId", inputJustWatered)
-                    editor.putInt("inputNotify_$plantId", inputNotify)
-                    editor.putInt("inputCurrHeight_$plantId", inputCurrHeight)
-                    editor.putInt("inputGoalHeight_$plantId", inputGoalHeight)
-                    editor.apply()
+                    jsonObject.put("imageUri", imageUri ?: "placeholder.png")
 
                     val updatedJsonString = jsonArray.toString()
                     writeJsonToFile(updatedJsonString)
                     break
                 }
             }
-            val editor = sharedPreferences.edit()
-            editor.putString("PlantData", jsonArray.toString())
-            editor.apply()
         }
     }
 
