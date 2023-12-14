@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity() {
 
         loadPlantsDataFromSharedPreferences()
 
-        val plantsList = listOf("Plant 1", "Plant 2", "Plant 3") // Replace with real data later
+        val firstPlantLatinName = loadFirstPlantLatinName()
+        val plantsList = listOf(firstPlantLatinName)
         val adapter = ArrayAdapter(this, R.layout.list_item_plant, R.id.textViewPlantItem, plantsList)
         plantsListView.adapter = adapter
 
@@ -91,6 +92,19 @@ class MainActivity : AppCompatActivity() {
         if (jsonString != null) {
             parseJsonData(jsonString)
         }
+    }
+
+    private fun loadFirstPlantLatinName(): String {
+        val filename = sharedPreferences.getString("Filename", "plants.json") ?: "plants.json"
+        val jsonString = getJsonDataFromAsset(filename)
+        if (jsonString != null) {
+            val jsonArray = JSONArray(jsonString)
+            if (jsonArray.length() > 0) {
+                val firstJsonObject = jsonArray.getJSONObject(0)
+                return firstJsonObject.getString("latin")
+            }
+        }
+        return "No Plant Data"
     }
 
     val commonNames = mutableListOf<String>()
