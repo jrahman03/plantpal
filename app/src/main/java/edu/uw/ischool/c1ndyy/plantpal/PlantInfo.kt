@@ -78,7 +78,6 @@ class PlantInfo : AppCompatActivity() {
                     imageView.setImageBitmap(bitmap)
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    // Handle the exception (e.g., show a placeholder image or log an error)
                     imageView.setImageResource(R.drawable.placeholder)
                 }
             }
@@ -134,7 +133,8 @@ class PlantInfo : AppCompatActivity() {
 
             btnEditPlant.setOnClickListener {
                 val intent = Intent(this, EditPlant::class.java)
-                intent.putExtra("imageUri", plant.imageUri)
+                intent.putExtra("imageUri", selectedImageUriString)
+                Log.d("Plant Image", "Plant image link: ${selectedImageUriString}")
                 intent.putExtra("plantId", plant.id)
                 intent.putExtra("plantName", plantNameText)
                 intent.putExtra("plantType", plantTypeText)
