@@ -14,6 +14,7 @@ import org.json.JSONArray
 import java.io.IOException
 import android.util.Log
 import android.content.Intent
+import android.widget.TextView
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         settingsButton = findViewById(R.id.settings)
         preferencesLayout = findViewById(R.id.preferencesLayout)
         plantsListView = findViewById(R.id.plantsListView)
+
+        loadPlantsDataFromSharedPreferences()
 
         val plantsList = listOf("Plant 1", "Plant 2", "Plant 3") // Replace with real data later
         val adapter = ArrayAdapter(this, R.layout.list_item_plant, R.id.textViewPlantItem, plantsList)
@@ -64,7 +67,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        if (intent.getBooleanExtra("showPreferences", false)) {
 
+            showPreferencesUI();
+        }
+
+    }
+    override fun onResume() {
+        super.onResume()
+        loadPlantsDataFromSharedPreferences()
+    }
+
+    private fun loadPlantsDataFromSharedPreferences() {
+        val jsonString = sharedPreferences.getString("PlantData", null)
+
+        if (jsonString != null) {
+            parseJsonData(jsonString)
+        }
     }
 
     private fun savePreferences(): Boolean {
@@ -84,7 +103,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPreferencesUI() {
-        preferencesLayout.visibility = View.VISIBLE
+
+        findViewById<TextView>(R.id.textViewYourPlants).visibility = View.GONE
+
+        findViewById<ListView>(R.id.plantsListView).visibility = View.GONE
+
+        findViewById<LinearLayout>(R.id.linearLayoutNavigation).visibility = View.VISIBLE
+
+        findViewById<LinearLayout>(R.id.preferencesLayout).visibility = View.VISIBLE
+
     }
 
     private fun getJsonDataFromAsset(fileName: String): String? {

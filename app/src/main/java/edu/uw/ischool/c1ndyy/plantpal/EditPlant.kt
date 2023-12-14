@@ -38,6 +38,8 @@ class EditPlant : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editplant)
 
+        val plantId = getIntent().getIntExtra("plantId", 0)
+        Log.d("PlantInfo", "Plant ID: $plantId")
         val plantNameInfo = getIntent().getStringExtra("plantName")
         val plantTypeInfo = getIntent().getStringExtra("plantType")
         val careMethodInfo = getIntent().getStringExtra("careMethod")
@@ -125,12 +127,13 @@ class EditPlant : AppCompatActivity() {
             val inputCurrHeight = currHeight.text.toString().toInt()
             val inputGoalHeight = heightGoal.text.toString().toInt()
 
-            //read plant json data
-            val jsonString = readJsonFromFile()
-            //update plant json data with user inputs
-            val updatedJsonString = updateJsonData(jsonString, inputJustWatered, inputNotify, inputCurrHeight, inputGoalHeight)
-            //updated json data back to file
-            writeJsonToFile(updatedJsonString)
+            updateJsonData(
+                plantId.toString().toInt(),
+                inputJustWatered,
+                inputNotify,
+                inputCurrHeight,
+                inputGoalHeight
+            )
 
             val intent = Intent(this, PlantInfo::class.java)
             intent.putExtra("inputWater", inputJustWatered)
@@ -150,28 +153,44 @@ class EditPlant : AppCompatActivity() {
         }
     }
 
-    private fun readJsonFromFile(): String {
-        val inputStream: InputStream = assets.open("plants.json")
-        val size: Int = inputStream.available()
-        val buffer = ByteArray(size)
-        inputStream.read(buffer)
-        inputStream.close()
-        return String(buffer, Charset.defaultCharset())
-    }
+    private fun updateJsonData(plantId: Int, inputJustWatered: Int, inputNotify: Int, inputCurrHeight: Int, inputGoalHeight: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("inputJustWatered", inputJustWatered)
+        editor.putInt("inputNotify", inputNotify)
+        editor.putInt("inputCurrHeight", inputCurrHeight)
+        editor.putInt("inputGoalHeight", inputGoalHeight)
+        editor.apply()
 
-    private fun updateJsonData(jsonString: String, inputJustWatered: Int, inputNotify: Int, inputCurrHeight: Int, inputGoalHeight: Int): String {
-        val jsonArray = JSONArray(jsonString)
+        val jsonString = sharedPreferences.getString("PlantData", null)
 
-        //update data in json file
-        for (i in 0 until jsonArray.length()) {
-            val jsonObject = jsonArray.getJSONObject(i)
-            jsonObject.put("lastWatered", inputJustWatered)
-            jsonObject.put("notify", inputNotify)
-            jsonObject.put("currHeight", inputCurrHeight)
-            jsonObject.put("goalHeight", inputGoalHeight)
+        if (jsonString != null) {
+            val jsonArray = JSONArray(jsonString)
+            for (i in 0 until jsonArray.length()) {
+                val jsonObject = jsonArray.getJSONObject(i)
+                val id = jsonObject.getInt("id")
+
+                if (id == plantId) {
+                    jsonObject.put("lastWatered", inputJustWatered)
+                    jsonObject.put("notify", inputNotify)
+                    jsonObject.put("currHeight", inputCurrHeight)
+                    jsonObject.put("goalHeight", inputGoalHeight)
+
+                    val editor = sharedPreferences.edit()
+                    editor.putInt("inputJustWatered_$plantId", inputJustWatered)
+                    editor.putInt("inputNotify_$plantId", inputNotify)
+                    editor.putInt("inputCurrHeight_$plantId", inputCurrHeight)
+                    editor.putInt("inputGoalHeight_$plantId", inputGoalHeight)
+                    editor.apply()
+
+                    break
+                }
+            }
+            val updatedJsonString = jsonArray.toString()
+            writeJsonToFile(updatedJsonString)
+            val editor = sharedPreferences.edit()
+            editor.putString("PlantData", jsonArray.toString())
+            editor.apply()
         }
-
-        return jsonArray.toString()
     }
 
     private fun writeJsonToFile(jsonString: String) {

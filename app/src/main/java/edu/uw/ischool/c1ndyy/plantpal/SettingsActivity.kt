@@ -37,7 +37,9 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         buttonRefreshCatalogue.setOnClickListener {
-            // Code to refresh the plant catalogue
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("showPreferences", true)
+            startActivity(intent)
         }
 
         buttonDeletePlant.setOnClickListener {

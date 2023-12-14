@@ -105,7 +105,8 @@
             android:id="@+id/savePreferencesButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Preferences"/>
+            android:text="Save Preferences"
+            android:backgroundTint="@color/customDarkGreen" />
 
     </LinearLayout>
 

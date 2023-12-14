@@ -1,5 +1,6 @@
 package edu.uw.ischool.c1ndyy.plantpal
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,9 @@ import android.widget.TextView
 import android.widget.Toast
 import org.json.JSONArray
 import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.nio.charset.Charset
 
 class PlantInfo : AppCompatActivity() {
 
@@ -26,10 +30,17 @@ class PlantInfo : AppCompatActivity() {
         setContentView(R.layout.activity_plantinfo)
 
         sharedPreferences = getSharedPreferences("PlantPalPreferences", MODE_PRIVATE)
+        inputWater = sharedPreferences.getInt("inputJustWatered", 0)
+        inputNotify = sharedPreferences.getInt("inputNotify", 0)
+        inputCurrHeight = sharedPreferences.getInt("inputCurrHeight", 0)
+        inputGoalHeight = sharedPreferences.getInt("inputGoalHeight", 0)
+
+        /*
         inputWater = getIntent().getIntExtra("inputWater", 0)
         inputNotify = getIntent().getIntExtra("inputNotify", 0)
         inputCurrHeight = getIntent().getIntExtra("inputCurrHeight", 0)
         inputGoalHeight = getIntent().getIntExtra("inputGoalHeight", 0)
+         */
 
         val btnEditPlant = findViewById<Button>(R.id.buttonEditPlant)
         val btnBack = findViewById<Button>(R.id.buttonBack)
@@ -77,6 +88,7 @@ class PlantInfo : AppCompatActivity() {
 
             btnEditPlant.setOnClickListener {
                 val intent = Intent(this, EditPlant::class.java)
+                intent.putExtra("plantId", plant.id)
                 intent.putExtra("plantName", plantNameText)
                 intent.putExtra("plantType", plantTypeText)
                 intent.putExtra("careMethod", careMethodText)
@@ -90,6 +102,7 @@ class PlantInfo : AppCompatActivity() {
             btnBack.setOnClickListener {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
 
 
@@ -97,7 +110,6 @@ class PlantInfo : AppCompatActivity() {
             Log.e("PlantInfo", "Plant not found for ID: $plantId")
         }
     }
-
 
     data class Plant(
         val id: Int,
@@ -164,5 +176,14 @@ class PlantInfo : AppCompatActivity() {
             plantsList.add(plant)
         }
         return plantsList
+    }
+
+    private fun readJsonFromFile(): String {
+        val inputStream: InputStream = assets.open("plants.json")
+        val size: Int = inputStream.available()
+        val buffer = ByteArray(size)
+        inputStream.read(buffer)
+        inputStream.close()
+        return String(buffer, Charset.defaultCharset())
     }
 }
