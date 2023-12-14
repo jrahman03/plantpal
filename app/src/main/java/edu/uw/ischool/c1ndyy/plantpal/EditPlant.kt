@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import org.json.JSONArray
@@ -34,10 +35,15 @@ class EditPlant : AppCompatActivity() {
     lateinit var heightGoal : EditText
     lateinit var saveChanges : Button
     lateinit var btnCancel : Button
+    lateinit var btnChangeImg : Button
     private val handler = Handler(Looper.getMainLooper())
     private val NOTIFICATION_INTERVAL_KEY = "notification_interval"
     private val LAST_SHOWN_TIME_KEY = "last_shown_time"
     private lateinit var notifInterval: String
+
+    companion object {
+        private const val PICK_IMAGE_REQUEST = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +78,7 @@ class EditPlant : AppCompatActivity() {
 
         saveChanges = findViewById(R.id.buttonSaveChanges)
         btnCancel = findViewById(R.id.buttonCancelEdit)
+        btnChangeImg = findViewById(R.id.buttonChangeImg)
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -117,6 +124,12 @@ class EditPlant : AppCompatActivity() {
         currHeight.addTextChangedListener(textWatcher)
         heightGoal.addTextChangedListener(textWatcher)
 
+        btnChangeImg.setOnClickListener (View.OnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        })
+
         btnCancel.setOnClickListener (View.OnClickListener {
             val intent = Intent(this, PlantInfo::class.java)
             intent.putExtra("inputWater", lastWateredInfo.toString().toInt())
@@ -153,6 +166,18 @@ class EditPlant : AppCompatActivity() {
             intent.putExtra("inputGoalHeight", inputGoalHeight)
             startActivity(intent)
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            val selectedImageUri = data?.data
+            if (selectedImageUri != null) {
+                val imageView = findViewById<ImageView>(R.id.myImageView)
+                imageView.setImageURI(selectedImageUri)
+            }
+        }
     }
 
     fun isValidNum(input: String): Boolean {
