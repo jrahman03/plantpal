@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         val navExplore = findViewById<Button>(R.id.explore)
         navExplore.setOnClickListener {
             val intent = Intent(this, AddPlant::class.java)
+            intent.putStringArrayListExtra("commonNames", ArrayList(commonNames))
             startActivity(intent)
         }
 
@@ -91,6 +92,8 @@ class MainActivity : AppCompatActivity() {
             parseJsonData(jsonString)
         }
     }
+
+    val commonNames = mutableListOf<String>()
 
     private fun savePreferences(): Boolean {
         val filename = urlEditText.text.toString()
@@ -148,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 
             // Extracting array of common names
             val commonJsonArray = jsonObject.getJSONArray("common")
-            val commonNames = mutableListOf<String>()
+            // val commonNames = mutableListOf<String>()
             for (j in 0 until commonJsonArray.length()) {
                 commonNames.add(commonJsonArray.getString(j))
             }
