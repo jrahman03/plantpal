@@ -14,6 +14,10 @@ class SettingsActivity : AppCompatActivity() {
         val buttonRefreshCatalogue = findViewById<Button>(R.id.buttonRefreshCatalogue)
         val buttonDeletePlant = findViewById<Button>(R.id.buttonDeletePlant)
 
+
+
+
+
         // Implement the onClickListeners for your buttons here
         // For example:
         buttonEditProfile.setOnClickListener {
