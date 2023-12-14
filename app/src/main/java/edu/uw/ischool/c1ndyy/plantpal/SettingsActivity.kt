@@ -1,5 +1,6 @@
 package edu.uw.ischool.c1ndyy.plantpal
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
@@ -14,6 +15,17 @@ class SettingsActivity : AppCompatActivity() {
         val buttonRefreshCatalogue = findViewById<Button>(R.id.buttonRefreshCatalogue)
         val buttonDeletePlant = findViewById<Button>(R.id.buttonDeletePlant)
 
+        //nav bar
+        val navHome = findViewById<Button>(R.id.home)
+        navHome.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        val navExplore = findViewById<Button>(R.id.explore)
+        navExplore.setOnClickListener {
+            //set to explore page when implemented
+        }
 
 
 

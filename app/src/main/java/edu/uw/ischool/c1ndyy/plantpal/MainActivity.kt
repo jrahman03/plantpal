@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("PlantPalPreferences", MODE_PRIVATE)
         urlEditText = findViewById(R.id.urlEditText)
         savePreferencesButton = findViewById(R.id.savePreferencesButton)
-        settingsButton = findViewById(R.id.settingsButton)
+        settingsButton = findViewById(R.id.settings)
         preferencesLayout = findViewById(R.id.preferencesLayout)
         plantsListView = findViewById(R.id.plantsListView)
 
@@ -40,10 +40,15 @@ class MainActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, R.layout.list_item_plant, R.id.textViewPlantItem, plantsList)
         plantsListView.adapter = adapter
 
-        val settingsButton = findViewById<Button>(R.id.settingsButton)
-        settingsButton.setOnClickListener {
+        val navSettings = findViewById<Button>(R.id.settings)
+        navSettings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
+        }
+
+        val navExplore = findViewById<Button>(R.id.explore)
+        navExplore.setOnClickListener {
+            //set to explore page when implemented
         }
 
         plantsListView.setOnItemClickListener{_, _, position, _ ->
