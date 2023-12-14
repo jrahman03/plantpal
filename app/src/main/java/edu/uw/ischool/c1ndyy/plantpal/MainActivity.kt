@@ -64,9 +64,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         plantsListView.setOnItemClickListener{_, _, position, _ ->
-            val intent = Intent(this, PlantInfo::class.java)
-            intent.putExtra("plant", position)
-            startActivity(intent)
+            val jsonString = getJsonDataFromAsset("plants.json")
+            if (jsonString != null) {
+                val jsonArray = JSONArray(jsonString)
+                if (position < jsonArray.length()) {
+                    val jsonObject = jsonArray.getJSONObject(position)
+                    val plantId = jsonObject.getInt("id")
+
+                    val intent = Intent(this, PlantInfo::class.java)
+                    intent.putExtra("plantId", plantId)
+                    startActivity(intent)
+                }
+            }
         }
 
 
