@@ -17,6 +17,7 @@
             android:name=".PlantInfo"
             android:exported="false" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".ExplorePlant" />
         <activity
             android:name=".EditPlant"
             android:exported="false" />

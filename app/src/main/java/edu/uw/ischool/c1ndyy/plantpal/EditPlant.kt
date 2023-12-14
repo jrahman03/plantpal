@@ -157,7 +157,7 @@ class EditPlant : AppCompatActivity() {
 
     fun isValidNum(input: String): Boolean {
         return try {
-            val number = input.toInt()
+            val number = input.toLong()
             number >= 0
         } catch (e: NumberFormatException) {
             false

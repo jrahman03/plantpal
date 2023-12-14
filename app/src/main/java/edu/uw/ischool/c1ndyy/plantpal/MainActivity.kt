@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         val navExplore = findViewById<Button>(R.id.explore)
         navExplore.setOnClickListener {
-            val intent = Intent(this, AddPlant::class.java)
+            val intent = Intent(this, ExplorePlant::class.java)
             intent.putStringArrayListExtra("commonNames", ArrayList(commonNames))
             startActivity(intent)
         }

@@ -15,11 +15,14 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.nio.charset.Charset
+import java.util.logging.Handler
 
 class PlantInfo : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var plantsList: List<Plant>
+    private lateinit var handler: Handler
+    private lateinit var updateLastWateredRunnable: Runnable
 
     var inputWater: Int = 0
     var inputNotify: Int = 0
@@ -80,6 +83,12 @@ class PlantInfo : AppCompatActivity() {
             goalHeight.text = goalHeightText
 
             btnJustWatered.setOnClickListener {
+                val currentTimeMillis = System.currentTimeMillis()
+                val lastWateredTimeMillis = plant.lastWatered.toLong()
+
+                val timeDifferenceHours = (currentTimeMillis - lastWateredTimeMillis) / (1000 * 60 * 60)
+
+
                 Toast.makeText(this, "You just watered your plant. Updated plant info.", Toast.LENGTH_LONG).show()
                 lastWatered.text = "Last Watered: 0 days ago"
                 plant.lastWatered = "0"
@@ -177,12 +186,4 @@ class PlantInfo : AppCompatActivity() {
         return plantsList
     }
 
-    private fun readJsonFromFile(): String {
-        val inputStream: InputStream = assets.open("plants.json")
-        val size: Int = inputStream.available()
-        val buffer = ByteArray(size)
-        inputStream.read(buffer)
-        inputStream.close()
-        return String(buffer, Charset.defaultCharset())
-    }
 }
