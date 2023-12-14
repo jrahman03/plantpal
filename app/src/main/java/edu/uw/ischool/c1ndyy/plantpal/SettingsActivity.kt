@@ -24,7 +24,8 @@ class SettingsActivity : AppCompatActivity() {
 
         val navExplore = findViewById<Button>(R.id.explore)
         navExplore.setOnClickListener {
-            //set to explore page when implemented
+            val intent = Intent(this, AddPlant::class.java)
+            startActivity(intent)
         }
 
 

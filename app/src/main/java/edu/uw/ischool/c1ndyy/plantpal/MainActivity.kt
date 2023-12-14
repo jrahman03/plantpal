@@ -49,9 +49,16 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val navHome = findViewById<Button>(R.id.home)
+        navHome.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         val navExplore = findViewById<Button>(R.id.explore)
         navExplore.setOnClickListener {
-            //set to explore page when implemented
+            val intent = Intent(this, AddPlant::class.java)
+            startActivity(intent)
         }
 
         plantsListView.setOnItemClickListener{_, _, position, _ ->
@@ -68,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (intent.getBooleanExtra("showPreferences", false)) {
-
             showPreferencesUI();
         }
 

@@ -1,5 +1,6 @@
 package edu.uw.ischool.c1ndyy.plantpal
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -49,6 +50,24 @@ class AddPlant : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        val navSettings = findViewById<Button>(R.id.settings)
+        navSettings.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        val navHome = findViewById<Button>(R.id.home)
+        navHome.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        val navExplore = findViewById<Button>(R.id.explore)
+        navExplore.setOnClickListener {
+            val intent = Intent(this, AddPlant::class.java)
+            startActivity(intent)
         }
     }
 }
