@@ -116,8 +116,6 @@ class MainActivity : AppCompatActivity() {
         return "No Plant Data"
     }
 
-    val commonNames = mutableListOf<String>()
-
     private fun savePreferences(): Boolean {
         val filename = urlEditText.text.toString()
 
@@ -162,6 +160,8 @@ class MainActivity : AppCompatActivity() {
             parseJsonData(jsonString)
         }
     }
+
+    val commonNames = mutableListOf<String>()
 
     private fun parseJsonData(jsonString: String) {
         val jsonArray = JSONArray(jsonString)
