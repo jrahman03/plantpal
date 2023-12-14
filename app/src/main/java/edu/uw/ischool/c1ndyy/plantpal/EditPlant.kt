@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -12,6 +14,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
@@ -31,8 +34,10 @@ class EditPlant : AppCompatActivity() {
     lateinit var heightGoal : EditText
     lateinit var saveChanges : Button
     lateinit var btnCancel : Button
-    private lateinit var plantName: String
-    private val plantDataMap: MutableMap<String, PlantData> = mutableMapOf()
+    private val handler = Handler(Looper.getMainLooper())
+    private val NOTIFICATION_INTERVAL_KEY = "notification_interval"
+    private val LAST_SHOWN_TIME_KEY = "last_shown_time"
+    private lateinit var notifInterval: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +140,13 @@ class EditPlant : AppCompatActivity() {
                 inputGoalHeight
             )
 
+            notifInterval = notifSetting.text.toString()
+            sharedPreferences.edit().putString(NOTIFICATION_INTERVAL_KEY, notifInterval).apply()
+            scheduleToast()
+            Log.d("Water Plant Reminder", "${plantName.text} set to every ${notifInterval} days")
+
             val intent = Intent(this, PlantInfo::class.java)
+            intent.putExtra("plant", plantId)
             intent.putExtra("inputWater", inputJustWatered)
             intent.putExtra("inputNotify", inputNotify)
             intent.putExtra("inputCurrHeight", inputCurrHeight)
@@ -199,6 +210,23 @@ class EditPlant : AppCompatActivity() {
         outputStream.write(jsonString.toByteArray())
         outputStream.close()
         Log.d("SaveToJson", "Updated JSON file")
+    }
+
+    private fun scheduleToast() {
+        val interval = notifInterval.toLongOrNull()
+
+        if (interval != null && interval > 0) {
+            val lastShownTime = sharedPreferences.getLong(LAST_SHOWN_TIME_KEY, 0)
+            val nextShowTime = lastShownTime + interval * 24 * 60 * 60 * 1000
+            val currentTime = System.currentTimeMillis()
+            val plantName = findViewById<TextView>(R.id.titlePlantName)
+
+            if (currentTime >= nextShowTime) {
+                Toast.makeText(this, "Reminder: Time to water your ${plantName.text} plant!", Toast.LENGTH_LONG).show()
+
+                sharedPreferences.edit().putLong(LAST_SHOWN_TIME_KEY, currentTime).apply()
+            }
+        }
     }
 
 }
