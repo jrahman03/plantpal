@@ -155,10 +155,10 @@ class EditPlant : AppCompatActivity() {
 
     private fun updateJsonData(plantId: Int, inputJustWatered: Int, inputNotify: Int, inputCurrHeight: Int, inputGoalHeight: Int) {
         val editor = sharedPreferences.edit()
-        editor.putInt("inputJustWatered", inputJustWatered)
-        editor.putInt("inputNotify", inputNotify)
-        editor.putInt("inputCurrHeight", inputCurrHeight)
-        editor.putInt("inputGoalHeight", inputGoalHeight)
+        editor.putInt("inputJustWatered_$plantId", inputJustWatered)
+        editor.putInt("inputNotify_$plantId", inputNotify)
+        editor.putInt("inputCurrHeight_$plantId", inputCurrHeight)
+        editor.putInt("inputGoalHeight_$plantId", inputGoalHeight)
         editor.apply()
 
         val jsonString = sharedPreferences.getString("PlantData", null)
@@ -182,11 +182,11 @@ class EditPlant : AppCompatActivity() {
                     editor.putInt("inputGoalHeight_$plantId", inputGoalHeight)
                     editor.apply()
 
+                    val updatedJsonString = jsonArray.toString()
+                    writeJsonToFile(updatedJsonString)
                     break
                 }
             }
-            val updatedJsonString = jsonArray.toString()
-            writeJsonToFile(updatedJsonString)
             val editor = sharedPreferences.edit()
             editor.putString("PlantData", jsonArray.toString())
             editor.apply()

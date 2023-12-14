@@ -28,9 +28,6 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
-
         // Implement the onClickListeners for your buttons here
         // For example:
         buttonEditProfile.setOnClickListener {

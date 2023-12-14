@@ -30,11 +30,6 @@ class PlantInfo : AppCompatActivity() {
         setContentView(R.layout.activity_plantinfo)
 
         sharedPreferences = getSharedPreferences("PlantPalPreferences", MODE_PRIVATE)
-        inputWater = sharedPreferences.getInt("inputJustWatered", 0)
-        inputNotify = sharedPreferences.getInt("inputNotify", 0)
-        inputCurrHeight = sharedPreferences.getInt("inputCurrHeight", 0)
-        inputGoalHeight = sharedPreferences.getInt("inputGoalHeight", 0)
-
         /*
         inputWater = getIntent().getIntExtra("inputWater", 0)
         inputNotify = getIntent().getIntExtra("inputNotify", 0)
@@ -48,6 +43,10 @@ class PlantInfo : AppCompatActivity() {
 
         val plantId = getIntent().getIntExtra("plant", 0)
         Log.d("PlantInfo", "Received Plant ID: $plantId")
+        inputWater = sharedPreferences.getInt("inputJustWatered_$plantId", 0)
+        inputNotify = sharedPreferences.getInt("inputNotify_$plantId", 0)
+        inputCurrHeight = sharedPreferences.getInt("inputCurrHeight_$plantId", 0)
+        inputGoalHeight = sharedPreferences.getInt("inputGoalHeight_$plantId", 0)
 
         val plant = loadPlantsData()?.find { it.id == plantId }
 
