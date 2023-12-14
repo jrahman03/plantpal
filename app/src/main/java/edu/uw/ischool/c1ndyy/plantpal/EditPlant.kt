@@ -46,6 +46,7 @@ class EditPlant : AppCompatActivity() {
         private const val PICK_IMAGE_REQUEST = 1
     }
     private var selectedImageUri: Uri? = null
+    private var originalImageUri: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +61,14 @@ class EditPlant : AppCompatActivity() {
         val notifyInfo = getIntent().getStringExtra("notify")
         val currHeightInfo = getIntent().getStringExtra("currHeight")
         val goalHeightInfo = getIntent().getStringExtra("goalHeight")
+
+        val imageUri = intent.getStringExtra("imageUri")
+        val imageView = findViewById<ImageView>(R.id.myImageView)
+        if (imageUri != null && imageUri != "placeholder.png") {
+            imageView.setImageURI(Uri.parse(imageUri))
+        } else {
+            imageView.setImageResource(R.drawable.placeholder)
+        }
 
         val plantName = findViewById<TextView>(R.id.titlePlantName)
         plantName.setText(plantNameInfo)
@@ -150,6 +159,7 @@ class EditPlant : AppCompatActivity() {
             val inputNotify = notifSetting.text.toString().toInt()
             val inputCurrHeight = currHeight.text.toString().toInt()
             val inputGoalHeight = heightGoal.text.toString().toInt()
+            val imageUri = selectedImageUri?.toString() ?: "placeholder.png"
 
             updateJsonData(
                 plantId.toString().toInt(),
@@ -157,7 +167,7 @@ class EditPlant : AppCompatActivity() {
                 inputNotify,
                 inputCurrHeight,
                 inputGoalHeight,
-                selectedImageUri?.toString()
+                imageUri
             )
 
             notifInterval = notifSetting.text.toString()
@@ -166,7 +176,7 @@ class EditPlant : AppCompatActivity() {
             Log.d("Water Plant Reminder", "${plantName.text} set to every ${notifInterval} days")
 
             val intent = Intent(this, PlantInfo::class.java)
-            intent.putExtra("selectedImageUri", selectedImageUri?.toString())
+            intent.putExtra("selectedImageUri", imageUri)
             intent.putExtra("plant", plantId)
             intent.putExtra("inputWater", inputJustWatered)
             intent.putExtra("inputNotify", inputNotify)

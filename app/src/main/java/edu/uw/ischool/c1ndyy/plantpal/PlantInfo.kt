@@ -134,6 +134,7 @@ class PlantInfo : AppCompatActivity() {
 
             btnEditPlant.setOnClickListener {
                 val intent = Intent(this, EditPlant::class.java)
+                intent.putExtra("imageUri", plant.imageUri)
                 intent.putExtra("plantId", plant.id)
                 intent.putExtra("plantName", plantNameText)
                 intent.putExtra("plantType", plantTypeText)
