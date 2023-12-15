@@ -159,7 +159,15 @@ class EditPlant : AppCompatActivity() {
             val inputNotify = notifSetting.text.toString().toInt()
             val inputCurrHeight = currHeight.text.toString().toInt()
             val inputGoalHeight = heightGoal.text.toString().toInt()
-            val imageUri = selectedImageUri?.toString() ?: "placeholder.png"
+            var inputImageUri = selectedImageUri?.toString() ?: "placeholder.png"
+            Log.d("selectedImageUri", "selectedImage: $selectedImageUri")
+
+            val originalImageUri = sharedPreferences.getString("imageUri_$plantId", "placeholder.png")
+
+            if (imageUri == originalImageUri) {
+                sharedPreferences.edit().putString("imageUri_$plantId", originalImageUri).apply()
+                inputImageUri = originalImageUri.toString()
+            }
 
             updateJsonData(
                 plantId.toString().toInt(),
@@ -167,7 +175,7 @@ class EditPlant : AppCompatActivity() {
                 inputNotify,
                 inputCurrHeight,
                 inputGoalHeight,
-                selectedImageUri?.toString()
+                inputImageUri
             )
 
             notifInterval = notifSetting.text.toString()
@@ -176,7 +184,7 @@ class EditPlant : AppCompatActivity() {
             Log.d("Water Plant Reminder", "${plantName.text} set to every ${notifInterval} days")
 
             val intent = Intent(this, PlantInfo::class.java)
-            intent.putExtra("selectedImageUri", imageUri)
+            intent.putExtra("selectedImageUri", inputImageUri)
             intent.putExtra("plant", plantId)
             intent.putExtra("inputWater", inputJustWatered)
             intent.putExtra("inputNotify", inputNotify)
