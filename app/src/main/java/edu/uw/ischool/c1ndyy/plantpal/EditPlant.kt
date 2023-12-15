@@ -175,7 +175,7 @@ class EditPlant : AppCompatActivity() {
                 inputNotify,
                 inputCurrHeight,
                 inputGoalHeight,
-                inputImageUri
+                selectedImageUri?.toString()
             )
 
             notifInterval = notifSetting.text.toString()

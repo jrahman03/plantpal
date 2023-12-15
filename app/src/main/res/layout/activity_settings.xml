@@ -80,7 +80,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="42dp"
         android:backgroundTint="@color/customDarkGreen"
-        android:text="Edit Profile" />
+        android:text="Send Notifications" />
 
     <Button
         android:id="@+id/buttonRefreshCatalogue"
